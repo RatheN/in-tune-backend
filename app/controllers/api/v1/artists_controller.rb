@@ -6,9 +6,9 @@ class Api::V1::ArtistsController < ApplicationController
     end
 
     def create
-        @artist = Artist.new(account_params)
+        @artist = Artist.new(artist_params)
         if @artist.save
-            render json: @account
+            render json: @artist
         else
             render json: {error: "Couldn't add artist"}
         end
@@ -26,7 +26,7 @@ class Api::V1::ArtistsController < ApplicationController
 
     private
 
-    def account_params
+    def artist_params
         params.require(:artist).permit(:name, :genre)
     end
 

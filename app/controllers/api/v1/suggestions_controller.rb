@@ -10,7 +10,7 @@ class Api::V1::SuggestionsController < ApplicationController
     def create
         @suggestion = @artist.suggestions.build(suggestion_params)
         if @suggestion.save
-            render json: @suggestion
+            render json: @artist
         else
             render json: {error: "Couldn't add suggestion"}
         end
@@ -22,7 +22,13 @@ class Api::V1::SuggestionsController < ApplicationController
     end
 
     def destroy
-        
+        @suggestion = Suggestion.find(params["id"])
+        @artist = Artist.find(@suggestion.artist_id)
+        if @suggestion.destroy
+          render json: @artist
+        else
+          render json: {error: "Couldn't delete suggestion"}
+        end
     end
 
     private
